@@ -1,6 +1,6 @@
 # Update Android manifest package action
 
-This action update the `package` and `android:label` for the `application` properties of the AndroidManifest.xml file for your Android projects.
+This action injects and updates the `meta-data android:value` property for the `application/meta-data android:name` given of the AndroidManifest.xml file for your Android projects.
 
 ## Inputs
 
@@ -8,26 +8,38 @@ This action update the `package` and `android:label` for the `application` prope
 
 **Required** The relative path for the AndroidManifest.xml file.
 
-### `package-name` 
+### `metadata-key` 
   
-**Required** The new package name for the application.
+**Required** The key name for the metadata you wish to change `meta-data android:name`.
 
-###  `app-name`
+###  `metadata-value`
     
-The new application label
+**Required** The new value you wish to enter `android:value`.
 
 ###  `print-file`
 
 Output the AndroidManifest.xml file in console before and after update.
 
-## Usage
+## Usage 1
 
 ```yaml
 - name: Update AndroidManifest.xml
   uses: damienaicheh/update-android-manifest-package-action@v1.0.0
   with:
     android-manifest-path: './path_to_your/AndroidManifest.xml'
-    package-name: 'com.mynew.app'
-    app-name: 'MyApp'
+    metadata-key: 'com.google.android.geo.API_KEY'
+    metadat-value: 'API_KEY_HERE'
+    print-file: true
+```
+
+## Usage 2
+
+```yaml
+- name: Update AndroidManifest.xml
+  uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+  with:
+    android-manifest-path: './path_to_your/AndroidManifest.xml'
+    metadata-key: 'com.google.android.geo.API_KEY'
+    metadat-value: ${{secrets.YOUR_API_KEY_HERE}}
     print-file: true
 ```
