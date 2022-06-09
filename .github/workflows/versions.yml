@@ -1,9 +1,9 @@
 name: versions
 
 on:
-  # pull_request:
-  #   paths-ignore:
-  #     - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
   push:
     branches:
       - main
