@@ -24,7 +24,7 @@ Output the AndroidManifest.xml file in console before and after update.
 
 ```yaml
 - name: Update AndroidManifest.xml
-  uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+  uses: jacinlowe/update-android-manifest-package-action@v1.0.1
   with:
     android-manifest-path: './path_to_your/AndroidManifest.xml'
     metadata-key: 'com.google.android.geo.API_KEY'
@@ -36,7 +36,7 @@ Output the AndroidManifest.xml file in console before and after update.
 
 ```yaml
 - name: Update AndroidManifest.xml
-  uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+  uses: jacinlowe/update-android-manifest-package-action@v1.0.1
   with:
     android-manifest-path: './path_to_your/AndroidManifest.xml'
     metadata-key: 'com.google.android.geo.API_KEY'
