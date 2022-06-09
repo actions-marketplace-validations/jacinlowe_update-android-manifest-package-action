@@ -19,10 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Update AndroidManifest.xml
-        uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+      - name: Update AndroidManifest
+        uses: ./
         with:
           android-manifest-path: './samples/AndroidManifest.xml'
-          package-name: 'com.mynew.app'
-          app-name: 'MyApp'
+          metadata-key: 'com.google.android.geo.API_KEY'
+          metadata-value: 'XVDJERjerjijeriJIRE551558ER'
           print-file: true

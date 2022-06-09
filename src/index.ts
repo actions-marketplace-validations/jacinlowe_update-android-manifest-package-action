@@ -16,19 +16,24 @@ async function main(): Promise<void> {
             process.exit(1);
         }
 
-        let packageName = core.getInput('package-name');
+        let metadataKey = core.getInput('metadata-key');
 
-        if (!packageName) {
-            core.setFailed(`Package name has no value: ${packageName}`);
+        if (!metadataKey) {
+            core.setFailed(`key not inserted: ${metadataKey}`);
             process.exit(1);
         }
 
-        let appName: string = core.getInput('app-name');
+        let metadataValue: string = core.getInput('metadata-value');
+        if (!metadataValue) {
+            core.setFailed(`value not inserted: ${metadataValue}`);
+            process.exit(1);
+        }
 
         if (printFile) {
             core.info('Before update:');
             await exec.exec('cat', [androidManifestPath]);
         }
+        core.info('-----------n/------------')
 
         fs.chmodSync(androidManifestPath, "600");
 
@@ -43,11 +48,49 @@ async function main(): Promise<void> {
                     throw err;
                 }
 
-                result.manifest['$'].package = packageName;
+                // const json = JSON.stringify(result, null, 4);
+                // core.info(json)
 
-                if (appName) {
-                    result.manifest.application[0]['$']['android:label'] = appName;
+                let TESTVALUE = null
+
+                // Check in application
+                const keyMatch = result.manifest.application[0]["meta-data"] ?? null;
+                if (keyMatch) {
+                    keyMatch.forEach((element, i) => {
+                        if (element['$']['android:name'] === metadataKey) {
+                            core.info(`Found Key in application: ${keyMatch[0]['$']['android:name']}`)
+                            result.manifest.application[0]["meta-data"][i]['$']['android:value'] = metadataValue
+                            TESTVALUE = result.manifest.application[0]["meta-data"][i]['$']['android:value']
+                        }
+                    });
+                    // if (keyMatch[0]['$']['android:name'] === metadataKey) {
+                    //     result.manifest.application[0]["meta-data"][0]['$']['android:value'] = metadataValue
+                    // }
                 }
+
+                // Check in manifest
+                else {
+                    const key: Array<any> = result.manifest["meta-data"] ?? null
+                    if (key) {
+                        key.forEach((res, i) => {
+
+                            if (res['$']['android:name'] === metadataKey) {
+                                core.info(`Found Key in manifest: ${res['$']['android:name']}`)
+                                result.manifest["meta-data"][i]['$']['android:value'] = metadataValue
+                                TESTVALUE = result.manifest["meta-data"][i]['$']['android:value']
+                            }
+
+                        })
+                    }
+                }
+
+                if (!TESTVALUE) {
+                    // core.setFailed('Could not find or insert key')
+                    const msg = 'Could not find or insert key'
+                    throw handleError(err, msg)
+                }
+                core.info('-----------n/------------')
+
 
                 // convert JSON object to XML
                 const builder = new xml2js.Builder();
@@ -69,14 +112,21 @@ async function main(): Promise<void> {
         }
 
         core.info(`AndroidManifest.xml updated successfully`);
-    } catch (error) {
-        core.setFailed(error.message);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            core.setFailed(error.message);
+        }
     }
 }
 
-function handleError(err: any): void {
+function handleError(err: any, msg?: string): void {
+    if (!msg) {
+        console.error(err)
+        core.setFailed(`Unhandled error: ${err}`)
+    }
     console.error(err)
-    core.setFailed(`Unhandled error: ${err}`)
+    core.setFailed(`${msg}: ${err}`)
+
 }
 
 function getBooleanInput(inputName: string, defaultValue: boolean = false): boolean {

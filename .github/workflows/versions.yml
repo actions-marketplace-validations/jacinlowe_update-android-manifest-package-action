@@ -1,9 +1,9 @@
 name: versions
 
 on:
-  pull_request:
-    paths-ignore:
-      - '**.md'
+  # pull_request:
+  #   paths-ignore:
+  #     - '**.md'
   push:
     branches:
       - main
@@ -19,26 +19,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Update AndroidManifest.xml
+      - name: Update AndroidManifest
         uses: ./
         with:
           android-manifest-path: './samples/AndroidManifest.xml'
-          package-name: 'com.mycompany.app'
-          app-name: 'MyApp'
+          metadata-key: 'com.google.android.geo.API_KEY'
+          metadata-value: 'XVDJERjerjijeriJIRE551558ER'
           print-file: true
 
-      - name: Update AndroidManifest.xml
+      - name: Update AndroidManifest-1
         uses: ./
         with:
           android-manifest-path: './samples/AndroidManifest-1.xml'
-          package-name: 'com.mynew.app'
-          app-name: 'MyApp'
+          metadata-key: 'com.google.android.geo.API_KEY'
+          metadata-value: 'XVDJERjerjijeriJIRE551558ER'
           print-file: true
-
-      - name: Update AndroidManifest.xml without label tag
+          
+      - name: Update AndroidManifest-3 with metadata
         uses: ./
         with:
-          android-manifest-path: './samples/AndroidManifest-2.xml'
-          package-name: 'com.mynew.app'
-          app-name: 'New app'
-          print-file: true
+          android-manifest-path: './samples/AndroidManifest-3.xml'
+          metadata-key: 'com.google.android.geo.API_KEY'
+          metadata-value: 'XVDJERjerjijeriJIRE551558ER'
+      
+      # Test should fail
+      # - name: Update AndroidManifest-2 without metadata
+      #   uses: ./
+      #   with:
+      #     android-manifest-path: './samples/AndroidManifest-2.xml'
+      #     metadata-key: 'com.google.android.geo.API_KEY'
+      #     metadata-value: 'XVDJERjerjijeriJIRE551558ER'

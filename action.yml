@@ -1,15 +1,15 @@
-name: 'Update Android Manifest package action'
-description: 'Update the AndroidManifest.xml file'
-author: 'damienaicheh'
+name: 'Update Android Manifest package meta-data action'
+description: 'Update the metadata in a AndroidManifest.xml file'
+author: 'jacinlowe'
 inputs:
   android-manifest-path:
     description: 'Relative path for the AndroidManifest.xml file.'
     required: true
-  package-name:
-    description: 'Package value'
+  metadata-key:
+    description: 'meta-data android:name key you are looking to update'
     required: true
-  app-name:
-    description: 'The application name'
+  metadata-value:
+    description: 'android:value the value you want to insert'
     required: true
   print-file:
     description: 'Output the AndroidManifest.xml file in console'
