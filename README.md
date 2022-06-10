@@ -28,7 +28,7 @@ Output the AndroidManifest.xml file in console before and after update.
   with:
     android-manifest-path: './path_to_your/AndroidManifest.xml'
     metadata-key: 'com.google.android.geo.API_KEY'
-    metadat-value: 'API_KEY_HERE'
+    metadata-value: 'API_KEY_HERE'
     print-file: true
 ```
 
@@ -40,6 +40,6 @@ Output the AndroidManifest.xml file in console before and after update.
   with:
     android-manifest-path: './path_to_your/AndroidManifest.xml'
     metadata-key: 'com.google.android.geo.API_KEY'
-    metadat-value: ${{secrets.YOUR_API_KEY_HERE}}
+    metadata-value: ${{secrets.YOUR_API_KEY_HERE}}
     print-file: true
 ```
